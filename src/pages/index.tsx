@@ -1,7 +1,15 @@
 import Head from "next/head";
 import Link from "next/link";
 import { RouterOutputs, api } from "~/utils/api";
-import { SignIn, SignInButton, SignUp, SignUpButton, useUser, SignOutButton, UserButton } from "@clerk/nextjs";
+import {
+  SignIn,
+  SignInButton,
+  SignUp,
+  SignUpButton,
+  useUser,
+  SignOutButton,
+  UserButton,
+} from "@clerk/nextjs";
 
 // type PostWithUsers = RouterOutputs["posts"]["getAll"][number];
 
@@ -16,14 +24,14 @@ import { SignIn, SignInButton, SignUp, SignUpButton, useUser, SignOutButton, Use
 // }
 
 export default function Home() {
-  const hello = api.example.hello.useQuery({ text: "from tRPC" });
-
   const { isSignedIn, user, isLoaded } = useUser();
- 
+
+  const { data } = api.posts.getAll.useQuery();
+
   if (!isLoaded) {
     return null;
   }
- 
+
   return (
     <>
       <Head>
@@ -38,8 +46,9 @@ export default function Home() {
           {!!isSignedIn && <SignOutButton />}
 
           <div>
-      <UserButton afterSignOutUrl="/"/>
-    </div>
+            <UserButton afterSignOutUrl="/" />
+          </div>
+          <div>{data?.map((post) => <div>{post.content}</div>)}</div>
         </div>
       </main>
     </>
