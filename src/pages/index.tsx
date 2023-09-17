@@ -1,10 +1,8 @@
 import Head from "next/head";
-import Link from "next/link";
-import { RouterOutputs, api } from "~/utils/api";
+// import Link from "next/link";
+import { api } from "~/utils/api";
 import {
-  SignIn,
   SignInButton,
-  SignUp,
   SignUpButton,
   useUser,
   SignOutButton,
@@ -24,7 +22,7 @@ import {
 // }
 
 export default function Home() {
-  const { isSignedIn, user, isLoaded } = useUser();
+  const { isSignedIn, isLoaded } = useUser();
 
   const { data } = api.posts.getAll.useQuery();
 
@@ -48,7 +46,9 @@ export default function Home() {
           <div>
             <UserButton afterSignOutUrl="/" />
           </div>
-          <div>{data?.map((post) => <div>{post.content}</div>)}</div>
+          <div>
+            {data?.map((post) => <div key={post.id}>{post.content}</div>)}
+          </div>
         </div>
       </main>
     </>
