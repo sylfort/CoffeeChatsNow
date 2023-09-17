@@ -1,4 +1,4 @@
-import { z } from "zod";
+// import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
@@ -8,3 +8,4 @@ export const postsRouter = createTRPCRouter({
     return ctx.prisma.post.findMany();
   }),
 });
+
