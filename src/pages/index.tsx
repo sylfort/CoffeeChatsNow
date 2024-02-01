@@ -46,10 +46,11 @@ export default function Home() {
           <div>
             <UserButton afterSignOutUrl="/" />
           </div>
-          <div>
-            {data?.map((post) => <div key={post.id}>{post.content}</div>)}
-          </div>
+          
         </div>
+        <div>
+            {data?.map((post) => <div key={post.id}>{post.content}</div>)}
+          </div>  
       </main>
     </>
   );
