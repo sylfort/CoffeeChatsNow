@@ -1,6 +1,6 @@
 import Head from "next/head";
 // import Link from "next/link";
-import { api } from "~/utils/api";
+import { RouterOutputs, api } from "~/utils/api";
 import {
   SignInButton,
   SignUpButton,
@@ -22,17 +22,17 @@ const CreatePostWizard = () => {
   </div>
 }
 
-// type PostWithUsers = RouterOutputs["posts"]["getAll"][number];
+type PostWithUsers = RouterOutputs["posts"]["getAll"][number];
 
-// const PostView = (props: PostWithUsers) => {
-//   const {post, author} = props;
-//   return (
-//     <div>
-//       <p>{post}</p>
-//       <p>By {author}</p>
-//     </div>
-//   )
-// }
+const PostView = (props: PostWithUsers) => {
+  const {post, author} = props;
+  return (
+    <div key={post.id}>
+      <p>{post.content}</p>
+      <p>By {author?.username}</p>
+    </div>
+  )
+}
 
 export default function Home() {
   const { isSignedIn, isLoaded } = useUser();
@@ -64,11 +64,10 @@ export default function Home() {
             <UserButton afterSignOutUrl="/" />
           </div>
           <div className="flex flex-col">
-            {data?.map(({post, author}) => <div className=" p-8 my-2 overflow-hidden border-4 border-double border-blue-500 shadow sm:rounded-lg" key={post.id}>
-              {post.content}
-              <img src={author?.imgUrl} alt="author image"/>
-              <div>{author?.id}</div>
-              </div>)}
+            {data?.map((fullPost) => (<div key={fullPost.post.id} className=" p-8 my-2 overflow-hidden border-4 border-double border-blue-500 shadow sm:rounded-lg">
+              
+              <PostView {...fullPost} key={fullPost.post.id} />
+              </div>))}
           </div> 
         </div>
       </main>
